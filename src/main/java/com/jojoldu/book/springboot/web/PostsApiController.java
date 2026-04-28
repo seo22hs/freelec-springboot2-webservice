@@ -40,4 +40,10 @@ public class PostsApiController {
     public List<PostsResponseDto> findAll() {
         return postsService.findAllDesc();
     }
+
+    @GetMapping("/api/v1/posts/author/{author}")
+    public List<PostsResponseDto> findByAuthor(@PathVariable String author) {
+        return postsService.findByAuthor(author);
+    }
+
 }
