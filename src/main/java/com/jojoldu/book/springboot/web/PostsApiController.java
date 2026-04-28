@@ -46,4 +46,9 @@ public class PostsApiController {
         return postsService.findByAuthor(author);
     }
 
+    @GetMapping("/api/v1/posts/search")
+    public List<PostsResponseDto> search(@RequestParam String keyword) {
+        return postsService.searchByTitle(keyword);
+    }
+
 }
