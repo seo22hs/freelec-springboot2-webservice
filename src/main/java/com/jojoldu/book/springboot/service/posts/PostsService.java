@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 
@@ -43,4 +46,29 @@ public class PostsService {
                         "해당 게시글이 없습니다. id=" + id));
         postsRepository.delete(posts);
     }
+
+    @Transactional(readOnly = true)
+    public List<PostsResponseDto> findAllDesc() {
+        return postsRepository.findAll()                  // (1)
+                .stream()
+                .map(PostsResponseDto::new)               // (2)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostsResponseDto> findByAuthor(String author) {
+        return postsRepository.findByAuthor(author)
+                .stream()
+                .map(PostsResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostsResponseDto> searchByTitle(String keyword) {
+        return postsRepository.findByTitleContaining(keyword)
+                .stream()
+                .map(PostsResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 }
