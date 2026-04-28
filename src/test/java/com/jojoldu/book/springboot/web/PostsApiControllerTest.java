@@ -118,4 +118,22 @@ public class PostsApiControllerTest {
         assertThat(responseEntity.getBody()).hasSize(2);
     }
 
+    @Test
+    public void 제목_키워드_검색() {
+
+        // given
+        postsRepository.save(Posts.builder().title("Spring Boot 입문").content("c").author("a").build());
+        postsRepository.save(Posts.builder().title("Spring Security").content("c").author("a").build());
+        postsRepository.save(Posts.builder().title("React 시작하기").content("c").author("a").build());
+
+        String url = "http://localhost:" + port + "/api/v1/posts/search?keyword=Spring";
+
+        // when
+        ResponseEntity<List> responseEntity =
+                restTemplate.getForEntity(url, List.class);
+
+        // then
+        assertThat(responseEntity.getBody()).hasSize(2);
+    }
+
 }
